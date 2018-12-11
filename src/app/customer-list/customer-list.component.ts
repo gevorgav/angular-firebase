@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { CustomerService, Customer } from '../shared/customer.service';
-import { Observable } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {CustomerService, Customer} from '../shared/customer.service';
+import {Router} from "@angular/router";
+import {Observable} from 'rxjs';
+import {AngularFireAuth} from 'angularfire2/auth';
+
 
 @Component({
   selector: 'app-customer-list',
@@ -9,12 +12,22 @@ import { Observable } from 'rxjs';
 })
 export class CustomerListComponent implements OnInit {
 
-  public customers$ : Observable<Customer[]> ;
+  public customers$: Observable<Customer[]>;
 
-  constructor(private customerService: CustomerService) { }
+  constructor(private customerService: CustomerService,
+              private afAuth: AngularFireAuth,
+              private router: Router) {
+  }
+
 
   ngOnInit(): void {
     this.customers$ = this.customerService.getCustomers();
+    console.log(this.afAuth.auth.currentUser);
+  }
+
+  logout() {
+    this.afAuth.auth.signOut();
+    this.router.navigateByUrl('/login');
   }
 
 }

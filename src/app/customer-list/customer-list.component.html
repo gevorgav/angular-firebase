@@ -2,3 +2,4 @@
 <div *ngFor="let customer of customers$ | async">
     {{customer.name}} - {{customer.mobile}}
 </div>
+<button type="button" (click)="logout()" class="btn btn-success">Logout</button>
